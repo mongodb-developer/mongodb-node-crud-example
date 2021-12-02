@@ -4,6 +4,12 @@ Code samples for the [MongoDB and npm](https://www.mongodb.com/languages/javascr
 
 ## How To Run
 
+Update the `.env` file to add your MongoDB Atlas connection string:
+
+```
+DB_URI=mongodb+srv://<username>:<password>@<clustername>.mongodb.net/
+```
+
 Execute the following commands in the root of the project:
 
 ```
