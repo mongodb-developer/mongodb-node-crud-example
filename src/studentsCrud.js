@@ -9,17 +9,17 @@ export async function executeStudentCrudOperations() {
         const db = mongoClient.db('school');
         const collection = db.collection('students');
 
-        await createStudentDocument(collection);
         console.log('CREATE Student');
-        console.log(await findDocumentsByName(collection, 'John Smith'));
+        await createStudentDocument(collection);
+        console.log(await findStudentsByName(collection, 'John Smith'));
 
-        await updateDocumentsByName(collection, 'John Smith', { birthdate: new Date(2001, 5, 5) });
         console.log('UPDATE Student\'s Birthdate');
-        console.log(await findDocumentsByName(collection, 'John Smith'));
+        await updateStudentsByName(collection, 'John Smith', { birthdate: new Date(2001, 5, 5) });
+        console.log(await findStudentsByName(collection, 'John Smith'));
 
-        await deleteDocumentsByName(collection, 'John Smith');
         console.log('DELETE Student');
-        console.log(await findDocumentsByName(collection, 'John Smith'));
+        await deleteStudentsByName(collection, 'John Smith');
+        console.log(await findStudentsByName(collection, 'John Smith'));
     } finally {
         await mongoClient.close();
     }
@@ -30,7 +30,7 @@ export async function connectToCluster(uri) {
 
     try {
         mongoClient = new MongoClient(uri);
-        console.log(`Connecting to MongoDB Atlas cluster...`);
+        console.log('Connecting to MongoDB Atlas cluster...');
         await mongoClient.connect();
         console.log('Successfully connected to MongoDB Atlas!');
 
@@ -51,18 +51,17 @@ export async function createStudentDocument(collection) {
     await collection.insertOne(studentDocument);
 }
 
-export async function findDocumentsByName(collection, name) {
+export async function findStudentsByName(collection, name) {
     return collection.find({ name }).toArray();
 }
 
-export async function updateDocumentsByName(collection, name, updatedFields) {
+export async function updateStudentsByName(collection, name, updatedFields) {
     await collection.updateMany(
         { name },
-        {
-            $set: { ...updatedFields }
-        });
+        { $set: updatedFields }
+    );
 }
 
-export async function deleteDocumentsByName(collection, name) {
+export async function deleteStudentsByName(collection, name) {
     await collection.deleteMany({ name });
 }

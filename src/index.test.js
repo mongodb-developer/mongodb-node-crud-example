@@ -3,9 +3,9 @@ import { jest } from '@jest/globals';
 import {
     connectToCluster,
     createStudentDocument,
-    updateDocumentsByName,
-    findDocumentsByName,
-    deleteDocumentsByName,
+    findStudentsByName,
+    updateStudentsByName,
+    deleteStudentsByName,
     executeStudentCrudOperations
 } from "./studentsCrud.js";
 
@@ -41,11 +41,11 @@ describe('CRUD', () => {
             name: 'Jeremy Renner',
         });
 
-        const documents = await findDocumentsByName(collection, 'Jeremy Renner');
+        const documents = await findStudentsByName(collection, 'Jeremy Renner');
         expect(documents.length).toBe(1);
         expect(documents[0].name).toEqual('Jeremy Renner');
 
-        await updateDocumentsByName(collection, 'Jeremy Renner', { name: 'Hailee Steinfeld' });
+        await updateStudentsByName(collection, 'Jeremy Renner', { name: 'Hailee Steinfeld' });
         const documentsAfterUpdate = await collection.find().toArray();
 
         expect(documentsAfterUpdate.length).toBe(1);
@@ -57,7 +57,7 @@ describe('CRUD', () => {
             name: 'Jeremy Renner',
         });
 
-        const documents = await findDocumentsByName(collection, 'Jeremy Renner');
+        const documents = await findStudentsByName(collection, 'Jeremy Renner');
         expect(documents.length).toBe(1);
         expect(documents[0].name).toEqual('Jeremy Renner');
     });
@@ -67,12 +67,12 @@ describe('CRUD', () => {
             name: 'Jeremy Renner',
         });
 
-        const documents = await findDocumentsByName(collection, 'Jeremy Renner');
+        const documents = await findStudentsByName(collection, 'Jeremy Renner');
         expect(documents.length).toBe(1);
         expect(documents[0].name).toEqual('Jeremy Renner');
 
-        await deleteDocumentsByName(collection, 'Jeremy Renner');
-        const documentsAfterDelete = await findDocumentsByName(collection, 'Jeremy Renner');
+        await deleteStudentsByName(collection, 'Jeremy Renner');
+        const documentsAfterDelete = await findStudentsByName(collection, 'Jeremy Renner');
         expect(documentsAfterDelete.length).toBe(0);
     });
 });
@@ -102,7 +102,7 @@ describe('Students CRUD E2E', () => {
     });
 
     test('Invalid Cluster URI', async () => {
-        const consoleErrorMock = jest.spyOn(console, 'error');
+        const consoleErrorMock = jest.spyOn(console, 'error').mockImplementation(() => {});
         const exitMock = jest.spyOn(process, 'exit').mockImplementation(() => {});
 
         const mongoClient = await connectToCluster('invalid-uri');
