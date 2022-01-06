@@ -2,6 +2,8 @@
 
 Code samples for the [MongoDB and npm](https://www.mongodb.com/languages/javascript/mongodb-and-npm-tutorial) article.
 
+![main workflow](https://github.com/mongodb-developer/mongodb-node-crud-example/actions/workflows/main.yml/badge.svg)
+
 ## How To Run
 
 Update the `.env` file to add your [MongoDB Atlas connection string](https://docs.mongodb.com/guides/cloud/connectionstring/):
